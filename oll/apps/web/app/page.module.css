@@ -1,0 +1,28 @@
+/* apps/web/app/page.module.css */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --font-body: 'Inter', sans-serif;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100svh;
+  width: 100vw;
+  box-sizing: border-box;
+  padding: env(safe-area-inset);
+  flex-direction: column;
+
+  /* ✅ Add this */
+  font-family: var(--font-body);
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-top: 2%;
+}
