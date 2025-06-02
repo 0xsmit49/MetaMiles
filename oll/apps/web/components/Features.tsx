@@ -156,20 +156,7 @@ const FeaturesSection = () => {
 
       <section className="relative z-10 container mx-auto px-6 py-20 max-w-7xl">
         {/* Header */}
-        <div className={`text-center mb-20 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-          <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 tracking-tight leading-tight">
-            <span className="block text-white mb-2"style={{ fontFamily: "Holtwood One SC, serif" , fontSize: "3rem",
-              letterSpacing: "0.5rem",}}>Why Choose</span>
-            <span className="block gradient-text" style={{ fontFamily: "Holtwood One SC, serif" , fontSize: "3rem",
-              letterSpacing: "0.5rem",}}>
-  MetaMiles ?
-</span>
-
-          </h2>
-          <p className="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-            Experience the future of rewards with crypto-powered spending and exclusive MetaMiles benefits
-          </p>
-        </div>
+       
 
         {/* Features Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
