@@ -226,7 +226,21 @@ const FeaturesSection = () => {
         <div className={`text-center mt-20 transition-all duration-1000 delay-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
         
           
-          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button 
+              onClick={() => window.location.href = '/apply'}
+              className="group relative px-8 py-4 bg-gradient-to-r from-orange-600 to-amber-600 text-white font-semibold text-lg rounded-xl hover:from-orange-700 hover:to-amber-700 transition-all duration-300 transform hover:scale-105 overflow-hidden"
+            >
+              <span className="relative z-10 flex items-center justify-center">
+                Apply for MetaMask Card
+                <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                </svg>
+              </span>
+            </button>
+            
+            
+          </div>
         </div>
       </section>
     </div>
