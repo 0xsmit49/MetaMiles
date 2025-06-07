@@ -323,3 +323,84 @@ export const useWallet = (): WalletContextType => {
   return context;
 };
 
+// MetaMask Wallet Component
+const MetaMaskWallet: React.FC = () => {
+  const { 
+    account, 
+    chainId, 
+    isConnected, 
+    isConnecting, 
+    error, 
+    connect, 
+    disconnect, 
+    switchChain 
+  } = useWallet();
+
+  const formatAddress = (address: string): string => {
+    return `${address.slice(0, 6)}...${address.slice(-4)}`;
+  };
+
+  const getChainName = (chainId: string): string => {
+    const chains: Record<string, string> = {
+      '0x1': 'Ethereum Mainnet',
+      '0x5': 'Goerli Testnet',
+      '0x89': 'Polygon Mainnet',
+      '0x13881': 'Polygon Mumbai',
+      '0xa4b1': 'Arbitrum One',
+      '0xa': 'Optimism',
+    };
+    return chains[chainId] || `Chain ID: ${chainId}`;
+  };
+
+  if (!isConnected) {
+    return (
+     
+          
+      <button
+      onClick={connect}
+      disabled={isConnecting}
+      className="w-[16rem] bg-gradient-to-r from-orange-300 to-orange-300 hover:from-orange-100 hover:to-orange-100 disabled:opacity-50 disabled:cursor-not-allowed text-black font-bold py-3 px-6 rounded-lg transition-all duration-200 flex items-center justify-center space-x-2"
+    >
+      {isConnecting ? (
+        <>
+          <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-black"></div>
+          <span>Connecting...</span>
+        </>
+      ) : (
+        <>
+          <span>Connect MetaMask</span>
+        </>
+      )}
+    </button>
+    
+
+    );
+  }
+
+  return (
+
+     
+    <button
+    onClick={disconnect}
+    className="w-[10rem] bg-orange-100 hover:bg-orange-200 text-black font-bold py-2 px-4 rounded-lg transition-colors text-lg"
+  >
+    Disconnect
+  </button>
+  
+ 
+
+  );
+};
+
+// Main App Component
+const App: React.FC = () => {
+  return (
+    <WalletProvider>
+      
+        <MetaMaskWallet />
+    
+    </WalletProvider>
+  );
+};
+
+export default App;
