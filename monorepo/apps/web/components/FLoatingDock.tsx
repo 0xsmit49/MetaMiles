@@ -1,7 +1,7 @@
 import IconContainer from "@workspace/ui/components/ui/floating-dock";
 import { useMotionValue } from "motion/react";
 import { IconHome, IconMedal,  IconLayoutDashboard } from "@tabler/icons-react";
-import WalletConnector from "./Headers";
+import WalletConnector from "./WalletConnect";
 
 export default function MyCustomComponent() {
   const mouseX = useMotionValue(Infinity);
