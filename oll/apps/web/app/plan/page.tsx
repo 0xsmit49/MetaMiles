@@ -10,7 +10,6 @@ import React from 'react';
 
 
 
-import { OnchainKitProvider } from '@coinbase/onchainkit';
 
 
 
@@ -20,7 +19,7 @@ export default function Page() {
 
   return (
     <div className="min-h-screen relative overflow-hidden bg-black">
-        <OnchainKitProvider apiKey="HtKBr6ZPPcdHN6plf9qm4G3TAuQtV7Kf" chain={base}>
+      
       {/* Animated Background */}
       <div className="absolute inset-0 z-0">
         {/* Gradient Orbs */}
@@ -93,7 +92,7 @@ export default function Page() {
           animation: glow 2s ease-in-out infinite;
         }
       `}</style>
-      </OnchainKitProvider>
+  
     </div>
   );
 }
