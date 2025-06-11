@@ -240,7 +240,11 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-black/60" />
       </div>
 
-  
+      {/* Floating Dock - positioned to avoid content overlap */}
+      <div className="relative z-20">
+        <MyCustomComponent/>
+      </div>
+
       {/* Main Content */}
       <div className="relative z-10 min-h-screen flex items-center">
         <div className="container mx-auto px-6 lg:px-12 max-w-7xl">
