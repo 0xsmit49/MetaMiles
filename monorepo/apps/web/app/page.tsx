@@ -3,10 +3,10 @@ import { base } from 'viem/chains';
 import styles from "./page.module.css";
 import React from 'react';
 
-import Footer from '../components/Footer.jsx';
+import Footer from '../components/Footer';
 
-import FeaturesSection from '../components/Features.jsx';
-import HeroSection from '../components/Hero.jsx';
+import FeaturesSection from '../components/Features';
+import HeroSection from '../components/Hero';
 
 
 
