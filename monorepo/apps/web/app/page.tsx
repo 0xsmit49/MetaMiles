@@ -1,18 +1,14 @@
 'use client';
 import { base } from 'viem/chains';
 import styles from "./page.module.css";
-import Header from '@/components/Headers';
-import FAQSection from "../components/FAQsection.js";
-import CTASection from "../components/CTAsection.js";
 import React from 'react';
-import StatsSection from '../components/STATsection.js';
-import HowItWorksSection from '../components/HIWsection.js';
-import Footer from '../components/Footer.js';
 
-import FeaturesSection from '../components/Features.js';
-import HeroSection from '../components/Hero.js';
+import Footer from '../components/Footer.jsx';
 
-import { OnchainKitProvider } from '@coinbase/onchainkit';
+import FeaturesSection from '../components/Features.jsx';
+import HeroSection from '../components/Hero.jsx';
+
+
 
 
 
@@ -22,7 +18,7 @@ export default function Page() {
 
   return (
     <div className="min-h-screen relative overflow-hidden bg-black">
-        <OnchainKitProvider apiKey="HtKBr6ZPPcdHN6plf9qm4G3TAuQtV7Kf" chain={base}>
+     
       {/* Animated Background */}
       <div className="absolute inset-0 z-0">
         {/* Gradient Orbs */}
@@ -123,7 +119,7 @@ export default function Page() {
           animation: glow 2s ease-in-out infinite;
         }
       `}</style>
-      </OnchainKitProvider>
+    
     </div>
   );
 }
