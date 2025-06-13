@@ -1,6 +1,6 @@
 import { Geist, Geist_Mono, Holtwood_One_SC } from "next/font/google";
 import "@workspace/ui/globals.css";
-import { Providers } from "@/components/providers";
+
 
 const fontSans = Geist({
   subsets: ["latin"],
@@ -49,7 +49,7 @@ export default function RootLayout({
       <body
         className={`${fontSans.variable} ${fontMono.variable} ${fontHoltwood.variable} font-sans antialiased`}
       >
-        <Providers>{children}</Providers>
+        {children}
       </body>
     </html>
   );

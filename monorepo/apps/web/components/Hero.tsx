@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import MyCustomComponent from '../components/FLoatingDock';
+import MyCustomComponent from './FLoatingDock';
 
 
 export default function HeroSection() {

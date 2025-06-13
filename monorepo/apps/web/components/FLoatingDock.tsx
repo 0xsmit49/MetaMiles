@@ -1,4 +1,4 @@
-import IconContainer from "../../../packages/ui/src/components/ui/floating-dock";
+import IconContainer from "@workspace/ui/components/ui/floating-dock";
 import { useMotionValue } from "motion/react";
 import { IconHome, IconUser, IconSettings } from "@tabler/icons-react";
 import WalletConnector from "./Headers";
