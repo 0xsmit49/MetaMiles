@@ -1,6 +1,6 @@
 import IconContainer from "@workspace/ui/components/ui/floating-dock";
 import { useMotionValue } from "motion/react";
-import { IconHome, IconUser, IconSettings } from "@tabler/icons-react";
+import { IconHome, IconMedal,  IconLayoutDashboard } from "@tabler/icons-react";
 import WalletConnector from "./Headers";
 
 export default function MyCustomComponent() {
@@ -49,19 +49,19 @@ export default function MyCustomComponent() {
             mouseX={mouseX}
             title="Home"
             icon={<IconHome className="text-orange-400" />}
-            href="/home"
+            href="/"
           />
           <IconContainer
             mouseX={mouseX}
-            title="Profile"
-            icon={<IconUser className="text-orange-400" />}
-            href="/profile"
+            title="Rewards"
+            icon={<IconMedal className="text-orange-400" />}
+            href="/rewards"
           />
           <IconContainer
             mouseX={mouseX}
-            title="Settings"
-            icon={<IconSettings className="text-orange-400" />}
-            href="/settings"
+            title="Dashboard"
+            icon={< IconLayoutDashboard className="text-orange-400" />}
+            href="/dashboard"
           />
         </div>
 
