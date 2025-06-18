@@ -84,7 +84,111 @@ const TierProgress = ({ currentTier, monthlySpend, streak, isVisible, onToggle }
 };
 
 // Claimable Rewards Component
+const ClaimableRewards = ({ rewards, claimedRewards, onClaimReward, isVisible, onToggle }) => {
+  const [activeTab, setActiveTab] = useState('events');
 
+  const getRarityColor = (rarity) => {
+    switch(rarity) {
+      case 'legendary': return 'from-yellow-400 to-orange-500';
+      case 'epic': return 'from-purple-400 to-pink-500';
+      case 'rare': return 'from-blue-400 to-cyan-500';
+      default: return 'from-gray-400 to-slate-500';
+    }
+  };
+
+  const filteredRewards = rewards.filter(reward => reward.category === activeTab);
+
+  return (
+    <div className="bg-gradient-to-r from-gray-900/50 to-black/50 rounded-2xl border border-orange-500/20 backdrop-blur-sm">
+      <div className="p-4 flex items-center justify-between cursor-pointer" onClick={onToggle}>
+        <h2 className="text-xl font-bold flex items-center gap-2">
+          <Gift className="w-5 h-5 text-orange-400" />
+          Claimable Rewards
+          <span className="text-sm text-orange-400 bg-orange-500/20 px-2 py-1 rounded-full">
+            {rewards.filter(r => r.type === 'claimable').length}
+          </span>
+        </h2>
+        <button className="p-2 rounded-lg hover:bg-gray-800/50 transition-colors">
+          {isVisible ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+        </button>
+      </div>
+
+      {isVisible && (
+        <div className="px-6 pb-6">
+          {/* Category Tabs */}
+          <div className="flex gap-2 mb-6">
+            {['events', 'discounts', 'airdrops'].map(tab => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  activeTab === tab 
+                    ? 'bg-orange-500 text-white' 
+                    : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+                }`}
+              >
+                {tab === 'events' && ''} 
+                {tab === 'discounts' && ''} 
+                {tab === 'airdrops' && ''} 
+                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+              </button>
+            ))}
+          </div>
+
+          {/* Reward Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {filteredRewards.map(reward => (
+              <div 
+                key={reward.id}
+                className={`bg-gradient-to-br from-gray-800/50 to-gray-900/50 rounded-xl p-4 border transition-all duration-300 hover:scale-105 ${
+                  reward.type === 'claimable' 
+                    ? 'border-orange-500/30 hover:border-orange-500/60' 
+                    : 'border-gray-700/30 opacity-60'
+                }`}
+              >
+                <div className="flex items-start justify-between mb-3">
+                  <div className={`px-2 py-1 rounded-lg text-xs font-medium bg-gradient-to-r ${getRarityColor(reward.rarity)}`}>
+                    {reward.rarity.toUpperCase()}
+                  </div>
+                  <div className="text-xs text-gray-400">{reward.tier}</div>
+                </div>
+                
+                <h3 className="font-semibold mb-2">{reward.title}</h3>
+                <p className="text-sm text-gray-400 mb-3">{reward.description}</p>
+                
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-orange-400 font-semibold">{reward.value}</span>
+                  <span className="text-xs text-gray-400 flex items-center gap-1">
+                    <Clock className="w-3 h-3" />
+                    {reward.timeLeft}
+                  </span>
+                </div>
+                
+                <button
+                  onClick={() => onClaimReward(reward.id)}
+                  disabled={reward.type === 'locked' || claimedRewards.has(reward.id)}
+                  className={`w-full py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                    claimedRewards.has(reward.id)
+                      ? 'bg-green-600 text-white cursor-not-allowed'
+                      : reward.type === 'claimable'
+                      ? 'bg-orange-500 hover:bg-orange-600 text-white'
+                      : 'bg-gray-700 text-gray-400 cursor-not-allowed'
+                  }`}
+                >
+                  {claimedRewards.has(reward.id) 
+                    ? ' Claimed' 
+                    : reward.type === 'claimable' 
+                    ? 'Claim Now' 
+                    : 'Locked'}
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 // Badge Gallery Component
 const BadgeGallery = ({ badges, isVisible, onToggle }) => {
