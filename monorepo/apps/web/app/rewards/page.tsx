@@ -86,7 +86,62 @@ const TierProgress = ({ currentTier, monthlySpend, streak, isVisible, onToggle }
 // Claimable Rewards Component
 
 
+// Badge Gallery Component
+const BadgeGallery = ({ badges, isVisible, onToggle }) => {
+  const getRarityColor = (rarity) => {
+    switch(rarity) {
+      case 'legendary': return 'from-yellow-400 to-orange-500';
+      case 'epic': return 'from-purple-400 to-pink-500';
+      case 'rare': return 'from-blue-400 to-cyan-500';
+      default: return 'from-gray-400 to-slate-500';
+    }
+  };
 
+  return (
+    <div className="bg-gradient-to-r from-gray-900/50 to-black/50 rounded-2xl border border-orange-500/20 backdrop-blur-sm">
+      <div className="p-4 flex items-center justify-between cursor-pointer" onClick={onToggle}>
+        <h2 className="text-xl font-bold flex items-center gap-2">
+          <Award className="w-5 h-5 text-orange-400" />
+          Badge Gallery
+          <span className="text-sm text-green-400 bg-green-500/20 px-2 py-1 rounded-full">
+            {badges.filter(b => b.earned).length}/{badges.length}
+          </span>
+        </h2>
+        <button className="p-2 rounded-lg hover:bg-gray-800/50 transition-colors">
+          {isVisible ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+        </button>
+      </div>
+
+      {isVisible && (
+        <div className="px-6 pb-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {badges.map(badge => (
+              <div 
+                key={badge.id}
+                className={`bg-gradient-to-br from-gray-800/50 to-gray-900/50 rounded-xl p-4 border transition-all duration-300 hover:scale-105 ${
+                  badge.earned 
+                    ? 'border-orange-500/30 hover:border-orange-500/60' 
+                    : 'border-gray-700/30 opacity-60'
+                }`}
+              >
+                <div className="text-center">
+                  
+                  <h3 className="font-semibold mb-1">{badge.name}</h3>
+                  <p className="text-xs text-gray-400 mb-2">{badge.description}</p>
+                  {badge.earned && badge.date && (
+                    <div className="text-xs text-orange-400">
+                      Earned: {new Date(badge.date).toLocaleDateString()}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 // Analytics Component
 
