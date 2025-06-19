@@ -288,7 +288,7 @@ export default function HeroSection() {
     className="group px-5 py-2.5 border-2 border-orange-500/30 text-orange-300 font-semibold text-base rounded-lg hover:bg-orange-500/10 hover:border-orange-400/60 transition-all duration-300 backdrop-blur-sm"
   >
     <span className="flex items-center justify-center">
-      View Experiences
+      Cross chain rewards
       <svg className="ml-2 w-4 h-4 group-hover:rotate-45 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
       </svg>
