@@ -9,10 +9,6 @@ import FeaturesSection from '../components/Features';
 import HeroSection from '../components/Hero';
 
 
-
-
-
-
 export default function Page() {
  
 

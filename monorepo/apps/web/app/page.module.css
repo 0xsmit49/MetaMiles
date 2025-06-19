@@ -16,7 +16,7 @@
   padding: env(safe-area-inset);
   flex-direction: column;
 
-  /* ✅ Add this */
+  /*  Add this */
   font-family: var(--font-body);
 }
 

@@ -271,7 +271,7 @@ export default function HeroSection() {
               </div>
               <div className={`flex flex-col sm:flex-row gap-4 transition-all duration-1000 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
   <button
-    onClick={() => window.location.href = '/apply'}
+    onClick={() => window.location.href = '/partner-onboarding'}
     className="group relative px-5 py-2.5 bg-gradient-to-r from-orange-600 to-amber-600 text-white font-semibold text-base rounded-lg hover:from-orange-700 hover:to-amber-700 transition-all duration-300 transform hover:scale-105 overflow-hidden"
   >
     <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-amber-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -284,7 +284,7 @@ export default function HeroSection() {
   </button>
 
   <button
-    onClick={() => window.location.href = '/experiences'}
+    onClick={() => window.location.href = '/cross-chain-rewards'}
     className="group px-5 py-2.5 border-2 border-orange-500/30 text-orange-300 font-semibold text-base rounded-lg hover:bg-orange-500/10 hover:border-orange-400/60 transition-all duration-300 backdrop-blur-sm"
   >
     <span className="flex items-center justify-center">
