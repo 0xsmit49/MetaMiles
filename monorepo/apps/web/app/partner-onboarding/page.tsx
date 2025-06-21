@@ -1,400 +1,930 @@
 'use client';
 import React, { useState, useEffect } from "react";
+import MyCustomComponent from '../../components/FLoatingDock';
+import { Calendar, MapPin, Users, Gift, Settings, BarChart3, Shield, Upload, CheckCircle, AlertCircle, TrendingUp, DollarSign, Star, Globe, Zap, Bell } from "lucide-react";
 
-export default function PartnerOnboardingPage() {
-  const [isVisible, setIsVisible] = useState(false);
-  const [activeStep, setActiveStep] = useState(0);
-  const [formData, setFormData] = useState({
-    organizationName: '',
-    organizationType: '',
-    location: '',
-    email: '',
-    website: ''
+export default function MetaMilesPartnerSystem() {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [partners, setPartners] = useState([]);
+  const [perks, setPerks] = useState([]);
+  const [analytics, setAnalytics] = useState({
+    totalRedemptions: 0,
+    activeUsers: 0,
+    revenue: 0,
+    engagement: 0
   });
-  const [hoveredCard, setHoveredCard] = useState(null);
+  const [notifications, setNotifications] = useState([]);
 
-  const steps = [
-    {
-      number: "01",
-      title: "Partner Registration",
-      description: "Brand/Event/DAO visits MetaMiles Partner Portal",
-      details: [
-        "Register as verified reward partner",
-        "Set up organization profile",
-        "Complete KYC verification",
-        "Define partnership goals"
-      ],
-      icon: "🏢",
-      color: "from-orange-500 to-amber-500"
-    },
-    {
-      number: "02", 
-      title: "Perk Configuration",
-      description: "Define region-specific rewards and inventory",
-      details: [
-        "Set region-specific rewards (e.g., 'Spend $200 in SF → get concert ticket')",
-        "Upload reward NFTs and NFC unlock codes",
-        "Configure airdrops and partner drops",
-        "Set thresholds & tier gating logic (Bronze/Silver/Gold)"
-      ],
-      icon: "⚙️",
-      color: "from-amber-500 to-yellow-500"
-    },
-    {
-      number: "03",
-      title: "Integration & Monitoring", 
-      description: "MetaMiles SDK/Reward APIs implementation",
-      details: [
-        "Validate tier-based access",
-        "Distribute perks automatically",
-        "Track redemptions and participation",
-        "Monitor analytics and engagement"
-      ],
-      icon: "📊",
-      color: "from-yellow-500 to-orange-500"
-    }
-  ];
-
-  const organizationTypes = [
-    "Brand/Retailer",
-    "Event Organizer", 
-    "DAO/Community",
-    "Restaurant/Hospitality",
-    "Entertainment Venue",
-    "Tech Company",
-    "Other"
-  ];
-
+  // Sample data initialization
   useEffect(() => {
-    setIsVisible(true);
-    
-    const stepInterval = setInterval(() => {
-      setActiveStep((prev) => (prev + 1) % steps.length);
-    }, 4000);
+    setPartners([
+      { id: 1, name: "Downtown Cafe", type: "Restaurant", status: "verified", tier: "Gold", location: "San Francisco" },
+      { id: 2, name: "Tech Conference 2024", type: "Event", status: "pending", tier: "Silver", location: "New York" },
+      { id: 3, name: "CryptoDAO", type: "DAO", status: "verified", tier: "Bronze", location: "Global" }
+    ]);
 
-    return () => clearInterval(stepInterval);
+    setPerks([
+      { id: 1, title: "Free Coffee", partner: "Downtown Cafe", region: "SF", threshold: 100, claimed: 45, total: 100 },
+      { id: 2, title: "VIP Access", partner: "Tech Conference 2024", region: "NYC", threshold: 500, claimed: 12, total: 50 },
+      { id: 3, title: "Governance Token", partner: "CryptoDAO", region: "Global", threshold: 1000, claimed: 78, total: 200 }
+    ]);
+
+    setAnalytics({
+      totalRedemptions: 1250,
+      activeUsers: 890,
+      revenue: 45600,
+      engagement: 73
+    });
+
+    setNotifications([
+      { id: 1, type: "success", message: "New partner Downtown Cafe verified", time: "2 hours ago" },
+      { id: 2, type: "info", message: "Perk threshold reached for VIP Access", time: "4 hours ago" },
+      { id: 3, type: "warning", message: "Low inventory alert for Free Coffee perk", time: "6 hours ago" }
+    ]);
   }, []);
 
-  const handleInputChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
+  // Step 1: Partner Registration Component
+  const PartnerRegistration = () => {
+    const [formData, setFormData] = useState({
+      organizationName: '',
+      organizationType: '',
+      location: '',
+      email: '',
+      website: '',
+      description: '',
+      kycDocument: null
     });
-  };
+    const [verificationStatus, setVerificationStatus] = useState('pending');
+    const [uploadProgress, setUploadProgress] = useState(0);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle form submission
-    console.log('Form submitted:', formData);
-  };
+    const handleInputChange = (e) => {
+      setFormData({
+        ...formData,
+        [e.target.name]: e.target.value
+      });
+    };
 
-  const SubtleGrid = () => (
-    <div className="absolute inset-0 opacity-5">
-      <svg width="100%" height="100%" className="absolute inset-0">
-        <defs>
-          <pattern
-            id="subtlegrid"
-            width="40"
-            height="40"
-            patternUnits="userSpaceOnUse"
-          >
-            <path
-              d="M 40 0 L 0 0 0 40"
-              fill="none"
-              stroke="rgb(249 115 22 / 0.3)"
-              strokeWidth="0.5"
-            />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#subtlegrid)" />
-      </svg>
-    </div>
-  );
+    const handleFileUpload = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        setFormData({ ...formData, kycDocument: file });
+        // Simulate upload progress
+        let progress = 0;
+        const interval = setInterval(() => {
+          progress += 10;
+          setUploadProgress(progress);
+          if (progress >= 100) {
+            clearInterval(interval);
+            setTimeout(() => setVerificationStatus('verified'), 1000);
+          }
+        }, 200);
+      }
+    };
 
-  return (
-    <div className="relative min-h-screen bg-gradient-to-br from-slate-950 via-gray-900 to-black text-white overflow-hidden">
-      <style jsx>{`
-        @keyframes gradient-shift {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-        @keyframes step-glow {
-          0%, 100% { box-shadow: 0 10px 40px rgba(249, 115, 22, 0.2); }
-          50% { box-shadow: 0 20px 60px rgba(249, 115, 22, 0.4); }
-        }
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-10px); }
-        }
-        @keyframes shimmer {
-          0% { transform: translateX(-100%); }
-          100% { transform: translateX(100%); }
-        }
-        @keyframes pulse-glow {
-          0%, 100% { opacity: 0.6; transform: scale(1); }
-          50% { opacity: 1; transform: scale(1.05); }
-        }
-        .gradient-text {
-          background: linear-gradient(-45deg, #f97316, #f59e0b, #fb923c, #f97316);
-          background-size: 400% 400%;
-          animation: gradient-shift 3s ease infinite;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-        }
-        .step-card {
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          will-change: transform;
-        }
-        .step-card:hover {
-          transform: translateY(-10px) scale(1.02);
-          animation: step-glow 2s ease-in-out infinite;
-        }
-        .step-active {
-          animation: pulse-glow 2s ease-in-out infinite;
-        }
-        .shimmer-effect {
-          position: relative;
-          overflow: hidden;
-        }
-        .shimmer-effect::after {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(
-            90deg,
-            transparent,
-            rgba(249, 115, 22, 0.3),
-            transparent
-          );
-          transition: left 0.5s ease;
-        }
-        .step-card:hover .shimmer-effect::after {
-          left: 100%;
-        }
-        .floating-icon {
-          animation: float 3s ease-in-out infinite;
-        }
-        .form-glow {
-          box-shadow: 0 0 30px rgba(249, 115, 22, 0.1);
-          transition: box-shadow 0.3s ease;
-        }
-        .form-glow:focus-within {
-          box-shadow: 0 0 40px rgba(249, 115, 22, 0.2);
-        }
-      `}</style>
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      const newPartner = {
+        id: partners.length + 1,
+        name: formData.organizationName,
+        type: formData.organizationType,
+        status: verificationStatus,
+        tier: 'Bronze',
+        location: formData.location,
+        email: formData.email,
+        website: formData.website
+      };
+      setPartners([...partners, newPartner]);
+      setNotifications([
+        { id: Date.now(), type: 'success', message: `New partner ${formData.organizationName} registered`, time: 'Just now' },
+        ...notifications
+      ]);
+    };
 
-      {/* Background Elements */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-gray-900 to-black" />
-        <SubtleGrid />
-        <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-black/60" />
-      </div>
+    return (
+      <div className="space-y-6">
+       
 
-      {/* Header */}
-      <div className="relative z-10 pt-16 pb-8">
-        <div className="container mx-auto px-6 lg:px-12 max-w-7xl">
-          <div className={`text-center transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-              <span className="block text-white mb-2" style={{ fontFamily: "Holtwood One SC, serif", fontSize: "3rem", letterSpacing: "0.3rem" }}>
-                Partner
-              </span>
-              <span className="block gradient-text" style={{ fontFamily: "Holtwood One SC, serif", fontSize: "2.5rem", letterSpacing: "0.3rem" }}>
-                Onboarding
-              </span>
-            </h1>
-            <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-              Join the MetaMiles ecosystem and unlock exclusive rewards for your community
-            </p>
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="bg-gray-800 rounded-xl p-6">
+            <h3 className="text-xl font-semibold mb-4 text-white">Organization Details</h3>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Organization Name</label>
+                <input
+                  type="text"
+                  name="organizationName"
+                  value={formData.organizationName}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-blue-500 focus:outline-none text-white"
+                  placeholder="Your Organization Name"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Organization Type</label>
+                <select
+                  name="organizationType"
+                  value={formData.organizationType}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-blue-500 focus:outline-none text-white"
+                  required
+                >
+                  <option value="">Select type...</option>
+                  <option value="Restaurant">Restaurant/Hospitality</option>
+                  <option value="Event">Event Organizer</option>
+                  <option value="DAO">DAO/Community</option>
+                  <option value="Brand">Brand/Retailer</option>
+                  <option value="Entertainment">Entertainment Venue</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Primary Location</label>
+                <input
+                  type="text"
+                  name="location"
+                  value={formData.location}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-blue-500 focus:outline-none text-white"
+                  placeholder="City, State/Country"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Contact Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-blue-500 focus:outline-none text-white"
+                  placeholder="contact@yourorg.com"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Website URL</label>
+                <input
+                  type="url"
+                  name="website"
+                  value={formData.website}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-blue-500 focus:outline-none text-white"
+                  placeholder="https://yourwebsite.com"
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full bg-gradient-to-r from-orange-500 to-orange-400 text-white font-semibold py-3 px-6 rounded-lg hover:from-orange-300 hover:to-orange-200 transition-all duration-300"
+              >
+                Register Partner
+              </button>
+            </form>
+          </div>
+
+          <div className="bg-gray-800 rounded-xl p-6">
+            <h3 className="text-xl font-semibold mb-4 text-white">KYC Verification</h3>
+            
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Upload Business License/Registration Document
+                </label>
+                <div className="border-2 border-dashed border-gray-600 rounded-lg p-6 text-center">
+                  <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                  <input
+                    type="file"
+                    onChange={handleFileUpload}
+                    accept=".pdf,.jpg,.jpeg,.png"
+                    className="hidden"
+                    id="kyc-upload"
+                  />
+                  <label
+                    htmlFor="kyc-upload"
+                    className="cursor-pointer text-blue-400 hover:text-blue-300"
+                  >
+                    Click to upload or drag and drop
+                  </label>
+                  <p className="text-gray-500 text-sm mt-2">PDF, JPG, PNG up to 10MB</p>
+                </div>
+              </div>
+
+              {uploadProgress > 0 && (
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-300">Upload Progress</span>
+                    <span className="text-blue-400">{uploadProgress}%</span>
+                  </div>
+                  <div className="w-full bg-gray-700 rounded-full h-2">
+                    <div 
+                      className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                      style={{ width: `${uploadProgress}%` }}
+                    />
+                  </div>
+                </div>
+              )}
+
+              <div className="flex items-center space-x-3 p-4 bg-gray-700 rounded-lg">
+                {verificationStatus === 'verified' ? (
+                  <CheckCircle className="w-6 h-6 text-green-500" />
+                ) : (
+                  <AlertCircle className="w-6 h-6 text-yellow-500" />
+                )}
+                <div>
+                  <p className="text-white font-medium">
+                    Verification Status: {verificationStatus === 'verified' ? 'Verified' : 'Pending'}
+                  </p>
+                  <p className="text-gray-400 text-sm">
+                    {verificationStatus === 'verified' 
+                      ? 'Your organization has been verified' 
+                      : 'Upload documents to complete verification'}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-gray-800 rounded-xl p-6">
+          <h3 className="text-xl font-semibold mb-4 text-white">Registered Partners</h3>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {partners.map((partner) => (
+              <div key={partner.id} className="bg-gray-700 rounded-lg p-4 border border-gray-600">
+                <div className="flex items-center justify-between mb-2">
+                  <h4 className="font-semibold text-white">{partner.name}</h4>
+                  <span className={`px-2 py-1 rounded text-xs ${
+                    partner.status === 'verified' ? 'bg-green-500/20 text-green-400' : 'bg-yellow-500/20 text-yellow-400'
+                  }`}>
+                    {partner.status}
+                  </span>
+                </div>
+                <p className="text-gray-400 text-sm mb-1">{partner.type}</p>
+                <div className="flex items-center text-gray-400 text-sm">
+                  <MapPin className="w-4 h-4 mr-1" />
+                  {partner.location}
+                </div>
+                <div className="mt-2 flex items-center space-x-2">
+                  <span className="text-xs text-gray-500">Tier:</span>
+                  <span className={`px-2 py-1 rounded text-xs ${
+                    partner.tier === 'Gold' ? 'bg-yellow-500/20 text-yellow-400' :
+                    partner.tier === 'Silver' ? 'bg-gray-500/20 text-gray-400' :
+                    'bg-orange-500/20 text-orange-400'
+                  }`}>
+                    {partner.tier}
+                  </span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
+    );
+  };
 
-      {/* Main Content */}
-      <div className="relative z-10 pb-16">
-        <div className="container mx-auto px-6 lg:px-12 max-w-7xl">
-          
-          {/* Process Steps */}
-          <div className="mb-16">
-            <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
-              {steps.map((step, index) => (
-                <div
-                  key={index}
-                  className={`step-card bg-gradient-to-br from-gray-900/50 to-black/50 backdrop-blur-sm rounded-2xl p-8 border border-orange-500/20 cursor-pointer ${
-                    activeStep === index ? 'step-active' : ''
-                  } ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}
-                  style={{ transitionDelay: `${index * 200}ms` }}
-                  onMouseEnter={() => setHoveredCard(index)}
-                  onMouseLeave={() => setHoveredCard(null)}
-                  onClick={() => setActiveStep(index)}
-                >
-                  {/* Step Number */}
-                  <div className="flex items-center justify-between mb-6">
-                    <div className={`text-6xl font-bold bg-gradient-to-r ${step.color} bg-clip-text text-transparent shimmer-effect`}>
-                      {step.number}
-                    </div>
-                    <div className="floating-icon text-4xl">
-                      {step.icon}
-                    </div>
-                  </div>
+  // Step 2: Perk Configuration Component
+  const PerkConfiguration = () => {
+    const [newPerk, setNewPerk] = useState({
+      title: '',
+      description: '',
+      region: '',
+      threshold: 100,
+      inventory: 50,
+      tier: 'Bronze',
+      type: 'discount',
+      nftCode: '',
+      nfcCode: ''
+    });
+    const [showForm, setShowForm] = useState(false);
 
-                  {/* Step Content */}
-                  <div className="space-y-4">
-                    <h3 className="text-xl font-bold text-white shimmer-effect">
-                      {step.title}
-                    </h3>
-                    <p className="text-gray-300 text-sm leading-relaxed">
-                      {step.description}
-                    </p>
-                    
-                    {/* Step Details */}
-                    <div className="space-y-2 pt-4">
-                      {step.details.map((detail, detailIndex) => (
-                        <div 
-                          key={detailIndex}
-                          className={`text-xs text-gray-400 transition-all duration-300 ${
-                            hoveredCard === index ? 'text-orange-300' : ''
-                          }`}
-                        >
-                          • {detail}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+    const handleCreatePerk = (e) => {
+      e.preventDefault();
+      const perk = {
+        id: perks.length + 1,
+        ...newPerk,
+        partner: partners[0]?.name || 'Your Organization',
+        claimed: 0,
+        total: parseInt(newPerk.inventory)
+      };
+      setPerks([...perks, perk]);
+      setNotifications([
+        { id: Date.now(), type: 'success', message: `New perk "${newPerk.title}" created`, time: 'Just now' },
+        ...notifications
+      ]);
+      setNewPerk({
+        title: '',
+        description: '',
+        region: '',
+        threshold: 100,
+        inventory: 50,
+        tier: 'Bronze',
+        type: 'discount',
+        nftCode: '',
+        nfcCode: ''
+      });
+      setShowForm(false);
+    };
 
-                  {/* Hover Effect Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-orange-500/5 to-amber-500/5 rounded-2xl opacity-0 transition-opacity duration-300 pointer-events-none group-hover:opacity-100" />
+    const generateCode = (type) => {
+      const code = Math.random().toString(36).substring(2, 10).toUpperCase();
+      setNewPerk({
+        ...newPerk,
+        [type]: code
+      });
+    };
+
+    return (
+      <div className="space-y-6">
+       
+
+        <div className="flex justify-between items-center">
+          <h3 className="text-xl font-semibold text-white">Active Perks</h3>
+          <button
+            onClick={() => setShowForm(true)}
+            className="bg-gradient-to-r from-green-600 to-teal-600 text-white px-6 py-2 rounded-lg hover:from-green-700 hover:to-teal-700 transition-all duration-300"
+          >
+            Create New Perk
+          </button>
+        </div>
+
+        {showForm && (
+          <div className="bg-gray-800 rounded-xl p-6">
+            <h4 className="text-lg font-semibold mb-4 text-white">Create New Perk</h4>
+            <form onSubmit={handleCreatePerk} className="space-y-4">
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">Perk Title</label>
+                  <input
+                    type="text"
+                    value={newPerk.title}
+                    onChange={(e) => setNewPerk({ ...newPerk, title: e.target.value })}
+                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-green-500 focus:outline-none text-white"
+                    placeholder="e.g., Free Coffee"
+                    required
+                  />
                 </div>
-              ))}
-            </div>
-          </div>
 
-          {/* Registration Form */}
-          <div className={`max-w-4xl mx-auto transition-all duration-1000 delay-600 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`}>
-            <div className="form-glow bg-gradient-to-br from-gray-900/50 to-black/50 backdrop-blur-sm rounded-2xl p-8 lg:p-12 border border-orange-500/20">
-              <div className="text-center mb-8">
-                <h2 className="text-3xl font-bold gradient-text mb-4">
-                  Start Your Partnership Journey
-                </h2>
-                <p className="text-gray-300">
-                  Complete the form below to begin your MetaMiles partnership
-                </p>
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">Region</label>
+                  <input
+                    type="text"
+                    value={newPerk.region}
+                    onChange={(e) => setNewPerk({ ...newPerk, region: e.target.value })}
+                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-green-500 focus:outline-none text-white"
+                    placeholder="e.g., San Francisco"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">Spend Threshold ($)</label>
+                  <input
+                    type="number"
+                    value={newPerk.threshold}
+                    onChange={(e) => setNewPerk({ ...newPerk, threshold: parseInt(e.target.value) })}
+                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-green-500 focus:outline-none text-white"
+                    min="0"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">Inventory Count</label>
+                  <input
+                    type="number"
+                    value={newPerk.inventory}
+                    onChange={(e) => setNewPerk({ ...newPerk, inventory: parseInt(e.target.value) })}
+                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-green-500 focus:outline-none text-white"
+                    min="1"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">Tier Requirement</label>
+                  <select
+                    value={newPerk.tier}
+                    onChange={(e) => setNewPerk({ ...newPerk, tier: e.target.value })}
+                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-green-500 focus:outline-none text-white"
+                  >
+                    <option value="Bronze">Bronze</option>
+                    <option value="Silver">Silver</option>
+                    <option value="Gold">Gold</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">Perk Type</label>
+                  <select
+                    value={newPerk.type}
+                    onChange={(e) => setNewPerk({ ...newPerk, type: e.target.value })}
+                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-green-500 focus:outline-none text-white"
+                  >
+                    <option value="discount">Discount</option>
+                    <option value="freebie">Free Item</option>
+                    <option value="access">Special Access</option>
+                    <option value="nft">NFT Reward</option>
+                  </select>
+                </div>
               </div>
 
-              <div className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <div className="block text-sm font-medium text-gray-300 mb-2">
-                      Organization Name *
-                    </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Description</label>
+                <textarea
+                  value={newPerk.description}
+                  onChange={(e) => setNewPerk({ ...newPerk, description: e.target.value })}
+                  className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-green-500 focus:outline-none text-white"
+                  rows="3"
+                  placeholder="Describe the perk details..."
+                />
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-300 mb-2">NFT Unlock Code</label>
+                  <div className="flex space-x-2">
                     <input
                       type="text"
-                      name="organizationName"
-                      value={formData.organizationName}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/20 transition-all duration-300 text-white placeholder-gray-400"
-                      placeholder="Enter your organization name"
+                      value={newPerk.nftCode}
+                      onChange={(e) => setNewPerk({ ...newPerk, nftCode: e.target.value })}
+                      className="flex-1 px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-green-500 focus:outline-none text-white"
+                      placeholder="Enter or generate code"
                     />
-                  </div>
-
-                  <div>
-                    <div className="block text-sm font-medium text-gray-300 mb-2">
-                      Organization Type *
-                    </div>
-                    <select
-                      name="organizationType"
-                      value={formData.organizationType}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/20 transition-all duration-300 text-white"
+                    <button
+                      type="button"
+                      onClick={() => generateCode('nftCode')}
+                      className="px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                     >
-                      <option value="">Select type...</option>
-                      {organizationTypes.map((type) => (
-                        <option key={type} value={type}>{type}</option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div>
-                    <div className="block text-sm font-medium text-gray-300 mb-2">
-                      Primary Location *
-                    </div>
-                    <input
-                      type="text"
-                      name="location"
-                      value={formData.location}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/20 transition-all duration-300 text-white placeholder-gray-400"
-                      placeholder="City, State/Country"
-                    />
-                  </div>
-
-                  <div>
-                    <div className="block text-sm font-medium text-gray-300 mb-2">
-                      Contact Email *
-                    </div>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/20 transition-all duration-300 text-white placeholder-gray-400"
-                      placeholder="your@email.com"
-                    />
+                      Generate
+                    </button>
                   </div>
                 </div>
 
                 <div>
-                  <div className="block text-sm font-medium text-gray-300 mb-2">
-                    Website URL
+                  <label className="block text-sm font-medium text-gray-300 mb-2">NFC Unlock Code</label>
+                  <div className="flex space-x-2">
+                    <input
+                      type="text"
+                      value={newPerk.nfcCode}
+                      onChange={(e) => setNewPerk({ ...newPerk, nfcCode: e.target.value })}
+                      className="flex-1 px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-green-500 focus:outline-none text-white"
+                      placeholder="Enter or generate code"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => generateCode('nfcCode')}
+                      className="px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                    >
+                      Generate
+                    </button>
                   </div>
-                  <input
-                    type="url"
-                    name="website"
-                    value={formData.website}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg focus:border-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500/20 transition-all duration-300 text-white placeholder-gray-400"
-                    placeholder="https://your-website.com"
+                </div>
+              </div>
+
+              <div className="flex space-x-4">
+                <button
+                  type="submit"
+                  className="bg-gradient-to-r from-green-600 to-teal-600 text-white px-6 py-3 rounded-lg hover:from-green-700 hover:to-teal-700 transition-all duration-300"
+                >
+                  Create Perk
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowForm(false)}
+                  className="bg-gray-600 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition-colors"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {perks.map((perk) => (
+            <div key={perk.id} className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+              <div className="flex items-center justify-between mb-4">
+                <h4 className="font-semibold text-white">{perk.title}</h4>
+                <Gift className="w-5 h-5 text-green-400" />
+              </div>
+              
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Partner:</span>
+                  <span className="text-white">{perk.partner}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Region:</span>
+                  <span className="text-white">{perk.region}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Threshold:</span>
+                  <span className="text-white">${perk.threshold}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Claimed:</span>
+                  <span className="text-white">{perk.claimed}/{perk.total}</span>
+                </div>
+              </div>
+
+              <div className="mt-4">
+                <div className="flex justify-between text-sm mb-1">
+                  <span className="text-gray-400">Inventory</span>
+                  <span className="text-white">{Math.round((perk.claimed / perk.total) * 100)}%</span>
+                </div>
+                <div className="w-full bg-gray-700 rounded-full h-2">
+                  <div
+                    className="bg-green-500 h-2 rounded-full transition-all duration-300"
+                    style={{ width: `${(perk.claimed / perk.total) * 100}%` }}
                   />
                 </div>
+              </div>
 
-                <div className="flex flex-col sm:flex-row gap-4 pt-6">
-                  <button
-                    onClick={handleSubmit}
-                    className="group relative flex-1 px-8 py-4 bg-gradient-to-r from-orange-600 to-amber-600 text-white font-semibold text-lg rounded-lg hover:from-orange-700 hover:to-amber-700 transition-all duration-300 transform hover:scale-105 overflow-hidden"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-amber-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <span className="relative z-10 flex items-center justify-center">
-                      Submit Application
-                      <svg className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                      </svg>
-                    </span>
-                  </button>
+              <div className="mt-4 flex space-x-2">
+                <button className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors text-sm">
+                  Edit
+                </button>
+                <button className="flex-1 bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors text-sm">
+                  Analytics
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
 
+  // Step 3: Integration & Monitoring Component
+  const IntegrationMonitoring = () => {
+    const [apiKey, setApiKey] = useState('mm_pk_live_...');
+    const [webhookUrl, setWebhookUrl] = useState('');
+    const [testMode, setTestMode] = useState(true);
+    const [isConnected, setIsConnected] = useState(false);
+
+    const generateApiKey = () => {
+      const key = `mm_pk_${testMode ? 'test' : 'live'}_${Math.random().toString(36).substring(2, 15)}`;
+      setApiKey(key);
+    };
+
+    const testConnection = () => {
+      setIsConnected(true);
+      setNotifications([
+        { id: Date.now(), type: 'success', message: 'API connection test successful', time: 'Just now' },
+        ...notifications
+      ]);
+    };
+
+    return (
+      <div className="space-y-6">
+        
+
+        <div className="grid lg:grid-cols-2 gap-6">
+          <div className="bg-gray-800 rounded-xl p-6">
+            <h3 className="text-xl font-semibold mb-4 text-white">API Integration</h3>
+            
+            <div className="space-y-4">
+              <div className="flex items-center space-x-4">
+                <span className="text-gray-300">Environment:</span>
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    checked={testMode}
+                    onChange={() => setTestMode(true)}
+                    className="text-purple-500"
+                  />
+                  <span className="text-white">Test</span>
+                </label>
+                <label className="flex items-center space-x-2">
+                  <input
+                    type="radio"
+                    checked={!testMode}
+                    onChange={() => setTestMode(false)}
+                    className="text-purple-500"
+                  />
+                  <span className="text-white">Live</span>
+                </label>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">API Key</label>
+                <div className="flex space-x-2">
+                  <input
+                    type="text"
+                    value={apiKey}
+                    readOnly
+                    className="flex-1 px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white"
+                  />
                   <button
-                    onClick={() => console.log('Schedule demo clicked')}
-                    className="group px-8 py-4 border-2 border-orange-500/30 text-orange-300 font-semibold text-lg rounded-lg hover:bg-orange-500/10 hover:border-orange-400/60 transition-all duration-300 backdrop-blur-sm"
+                    onClick={generateApiKey}
+                    className="px-4 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
                   >
-                    <span className="flex items-center justify-center">
-                      Schedule Demo
-                      <svg className="ml-2 w-5 h-5 group-hover:rotate-45 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                    </span>
+                    Generate
                   </button>
                 </div>
               </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">Webhook URL</label>
+                <input
+                  type="url"
+                  value={webhookUrl}
+                  onChange={(e) => setWebhookUrl(e.target.value)}
+                  className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg focus:border-purple-500 focus:outline-none text-white"
+                  placeholder="https://yourapp.com/webhook"
+                />
+              </div>
+
+              
+
+              <button
+                onClick={testConnection}
+                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 px-6 rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all duration-300"
+              >
+                Test Connection
+              </button>
+            </div>
+
+            <div className="mt-6 bg-gray-700 rounded-lg p-4">
+              <h4 className="font-semibold text-white mb-2">SDK Integration Code</h4>
+              <pre className="text-sm text-gray-300 overflow-x-auto">
+{`// Initialize MetaMiles SDK
+import MetaMiles from 'metamiles-sdk';
+
+const metamiles = new MetaMiles({
+  apiKey: '${apiKey}',
+  environment: '${testMode ? 'test' : 'production'}'
+});
+
+// Validate user tier
+const userTier = await metamiles.validateTier(userId);
+
+// Distribute perk
+const result = await metamiles.distributePerk({
+  userId,
+  perkId,
+  region: 'SF'
+});`}
+              </pre>
+            </div>
+          </div>
+
+          <div className="bg-gray-800 rounded-xl p-6">
+            <h3 className="text-xl font-semibold mb-4 text-white">Real-time Analytics</h3>
+            
+            <div className="grid grid-cols-2 gap-4 mb-6">
+              <div className="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg p-4 text-white">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-blue-100 text-sm">Total Redemptions</p>
+                    <p className="text-2xl font-bold">{analytics.totalRedemptions.toLocaleString()}</p>
+                  </div>
+                  <TrendingUp className="w-8 h-8 text-blue-200" />
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-r from-green-500 to-green-600 rounded-lg p-4 text-white">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-green-100 text-sm">Active Users</p>
+                    <p className="text-2xl font-bold">{analytics.activeUsers.toLocaleString()}</p>
+                  </div>
+                  <Users className="w-8 h-8 text-green-200" />
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-r from-purple-500 to-purple-600 rounded-lg p-4 text-white">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-purple-100 text-sm">Revenue Impact</p>
+                    <p className="text-2xl font-bold">${analytics.revenue.toLocaleString()}</p>
+                  </div>
+                  <DollarSign className="w-8 h-8 text-purple-200" />
+                </div>
+              </div>
+
+              <div className="bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg p-4 text-white">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-orange-100 text-sm">Engagement Rate</p>
+                    <p className="text-2xl font-bold">{analytics.engagement}%</p>
+                  </div>
+                  <Star className="w-8 h-8 text-orange-200" />
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <h4 className="font-semibold text-white">Recent Activity</h4>
+              <div className="space-y-2">
+                {[
+                  { user: 'User #1234', action: 'Claimed Free Coffee', time: '2 min ago', location: 'SF' },
+                  { user: 'User #5678', action: 'Reached Gold Tier', time: '5 min ago', location: 'NYC' },
+                  { user: 'User #9012', action: 'Redeemed VIP Access', time: '8 min ago', location: 'LA' },
+                  { user: 'User #3456', action: 'Claimed Governance Token', time: '12 min ago', location: 'Global' }
+                ].map((activity, index) => (
+                  <div key={index} className="flex items-center justify-between p-3 bg-gray-700 rounded-lg">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-2 h-2 bg-green-500 rounded-full" />
+                      <div>
+                        <p className="text-white text-sm">{activity.user}</p>
+                        <p className="text-gray-400 text-xs">{activity.action}</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-gray-400 text-xs">{activity.time}</p>
+                      <p className="text-gray-500 text-xs">{activity.location}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-gray-800 rounded-xl p-6">
+          <h3 className="text-xl font-semibold mb-4 text-white">Automated Tier Validation & Distribution</h3>
+          
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="bg-gradient-to-r from-orange-500/20 to-orange-600/20 border border-orange-500/30 rounded-lg p-4">
+              <div className="flex items-center space-x-3 mb-3">
+                <div className="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center">
+                  <span className="text-white text-sm font-bold">B</span>
+                </div>
+                <h4 className="font-semibold text-white">Bronze Tier</h4>
+              </div>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Threshold:</span>
+                  <span className="text-white">$0 - $499</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Active Users:</span>
+                  <span className="text-white">450</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Perks Available:</span>
+                  <span className="text-white">3</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-r from-gray-500/20 to-gray-600/20 border border-gray-500/30 rounded-lg p-4">
+              <div className="flex items-center space-x-3 mb-3">
+                <div className="w-8 h-8 bg-gray-500 rounded-full flex items-center justify-center">
+                  <span className="text-white text-sm font-bold">S</span>
+                </div>
+                <h4 className="font-semibold text-white">Silver Tier</h4>
+              </div>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Threshold:</span>
+                  <span className="text-white">$500 - $1,499</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Active Users:</span>
+                  <span className="text-white">320</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Perks Available:</span>
+                  <span className="text-white">7</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-r from-yellow-500/20 to-yellow-600/20 border border-yellow-500/30 rounded-lg p-4">
+              <div className="flex items-center space-x-3 mb-3">
+                <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center">
+                  <span className="text-white text-sm font-bold">G</span>
+                </div>
+                <h4 className="font-semibold text-white">Gold Tier</h4>
+              </div>
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Threshold:</span>
+                  <span className="text-white">$1,500+</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Active Users:</span>
+                  <span className="text-white">120</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Perks Available:</span>
+                  <span className="text-white">12</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+         
+        </div>
+      </div>
+    );
+  };
+
+  // Main Navigation
+  const steps = [
+    { id: 0, title: "Partner Registration", component: PartnerRegistration, icon: Shield },
+    { id: 1, title: "Perk Configuration", component: PerkConfiguration, icon: Settings },
+    { id: 2, title: "Integration & Monitoring", component: IntegrationMonitoring, icon: BarChart3 }
+  ];
+
+  const CurrentStepComponent = steps[currentStep].component;
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">
+      {/* Header */}
+      <div className="bg-gray-900/50 backdrop-blur-sm border-b border-gray-700">
+        <div className="container mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              
+              <div className="flex items-center flex-col">
+              <MyCustomComponent/>
+              <h1
+    className="font-bold text-white mt-8"
+    style={{
+      fontFamily: "Holtwood One SC, serif",
+      fontSize: "2rem",
+      letterSpacing: "0.15rem"
+    }}
+  >
+    MetaMiles Partner Portal
+  </h1>
+                <p className="text-gray-400 text-lg">Manage your rewards ecosystem</p>
+              </div>
+            </div>
+            
+            <div className="flex items-center space-x-4">
+              <div className="relative">
+                <Bell className="w-6 h-6 text-gray-400 hover:text-white cursor-pointer" />
+                {notifications.length > 0 && (
+                  <div className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
+                    <span className="text-xs text-white font-bold">{notifications.length}</span>
+                  </div>
+                )}
+              </div>
+              <div className="w-8 h-8 bg-gradient-to-r from-orange-500 to-orange-500 rounded-full" />
             </div>
           </div>
         </div>
       </div>
 
-      {/* Bottom Fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-black to-transparent" />
+      {/* Navigation */}
+      <div className="bg-gray-800/50 backdrop-blur-sm border-b border-gray-700">
+        <div className="container mx-auto px-6">
+          <nav className="flex space-x-8">
+            {steps.map((step) => (
+              <button
+                key={step.id}
+                onClick={() => setCurrentStep(step.id)}
+                className={`flex items-center space-x-2 px-4 py-4 border-b-2 transition-colors ${
+                  currentStep === step.id
+                    ? 'border-orange-500 text-orange-400'
+                    : 'border-transparent text-gray-400 hover:text-white'
+                }`}
+              >
+                <step.icon className="w-5 h-5" />
+                <span className="font-medium">{step.title}</span>
+              </button>
+            ))}
+          </nav>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="container mx-auto px-6 py-8">
+        <CurrentStepComponent />
+      </div>
+
+      {/* Notifications Panel */}
+      {notifications.length > 0 && (
+        <div className="fixed bottom-4 right-4 w-80 space-y-2 z-50">
+          {notifications.slice(0, 3).map((notification) => (
+            <div
+              key={notification.id}
+              className={`p-4 rounded-lg backdrop-blur-sm border ${
+                notification.type === 'success' ? 'bg-green-500/20 border-green-500/30' :
+                notification.type === 'warning' ? 'bg-yellow-500/20 border-yellow-500/30' :
+                'bg-blue-500/20 border-blue-500/30'
+              }`}
+            >
+              <div className="flex items-start space-x-3">
+                {notification.type === 'success' && <CheckCircle className="w-5 h-5 text-green-400 mt-0.5" />}
+                {notification.type === 'warning' && <AlertCircle className="w-5 h-5 text-yellow-400 mt-0.5" />}
+                {notification.type === 'info' && <Bell className="w-5 h-5 text-blue-400 mt-0.5" />}
+                <div className="flex-1">
+                  <p className="text-white text-sm">{notification.message}</p>
+                  <p className="text-gray-400 text-xs mt-1">{notification.time}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
