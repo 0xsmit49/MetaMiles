@@ -183,4 +183,79 @@ Now James tells every crypto friend:
 ---
 
 
+##  **Scalability & Future Roadmap**
+
+### **Phase 1: Launch & Core Platform**
+
+**Timeline:** *July 3 – August 31, 2025*
+
+* MetaMiles v1 launches with MetaMask Card spend tracking
+* ZK proof system operational for private spend verification
+* Tier-based IRL reward system live (Bronze/Silver/Gold NFTs)
+* Initial brand/DAO partners integrated in pilot cities
+
+---
+
+### **Phase 2: Localized Campaigns**
+
+**Timeline:** *September 1 – October 15, 2025*
+
+* Regional event-based campaigns go live:
+
+  * “**OnChain Diwali**” with Indian merchants
+  * “**NYC Art Week**” with art-based NFTs and IRL tickets
+* Time zone-aware and merchant-specific reward logic enabled
+* Launch regionalized UI/UX flows
+
+---
+
+### **Phase 3: Merchant & DAO Expansion**
+
+**Timeline:** *October 16 – December 15, 2025*
+
+* Self-serve **Partner Dashboard** launches
+* Open onboarding for:
+
+  * Local merchants, stores, cafes
+  * DAOs offering gated perks or regional rewards
+* Insights dashboard for partners:
+
+  * Redemption metrics, top-tier earners, campaign ROI
+
+---
+
+### **Phase 4: Advanced Rewards & Loyalty Mechanics**
+
+**Timeline:** *December 16, 2025 – February 28, 2026*
+
+* Introduce **staking-based multipliers**: stake USDC/ETH to boost spend rewards
+* Launch **Loyalty Badges** (Soulbound NFTs) as proof-of-spend collectibles
+* Soulbound perks:
+
+  * Lifetime discounts
+  * Discord roles
+  * VIP access to events
+
+---
+
+### **Phase 5: Developer SDK + Ecosystem Tools**
+
+**Timeline:** *March 1 – May 30, 2026*
+
+* Release **MetaMiles SDK** for:
+
+  * eCommerce platforms
+  * Ticketing sites
+  * Wallet apps
+* Enable token-gated checkout buttons, claim flows, and campaign automation
+* Public APIs for:
+
+  * Reward inventory upload
+  * Region + tier logic configuration
+  * User verification & claiming
+
+---
+
+
+
 
