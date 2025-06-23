@@ -117,7 +117,7 @@ Now James tells every crypto friend:
 
   * The LI.FI SDK is used to bridge rewards cross-chain
   * Circle’s CCTP V2 facilitates secure asset transfer
-* Reward is delivered to the user’s preferred destination chain or to their Circle Wallet
+* Reward is delivered to the user’s preferred destination chain 
 
 ### 6. Ongoing Use
 
@@ -130,5 +130,57 @@ Now James tells every crypto friend:
   * Reward history and streaks
 
 ---
+
+## **Partner Flow – How Brands, DAOs, and Events Integrate**
+
+### 1. Partner Onboarding
+
+* Partner (brand, DAO, festival, e-commerce platform) visits the **MetaMiles Partner Portal**
+* Registers as a verified reward provider
+* Sets up organization profile, including region, category, and contact details
+
+### 2. Perk Configuration
+
+* Partner defines region-specific and tier-based rewards
+
+  * Example: “Users in NYC who spend \$200+ unlock a backstage concert pass”
+* Uploads reward inventory:
+
+  * NFT reward tokens
+  * NFC/QR unlock codes for in-person experiences
+  * Airdrops, merch coupons, or gated Discord invites
+* Sets eligibility thresholds and maps to reward tiers: Bronze / Silver / Gold
+
+### 3. Integration & Monitoring
+
+* Uses **MetaMiles SDK** or **Reward API** to:
+
+  * Validate wallet tier and region eligibility
+  * Programmatically issue or mint rewards
+  * Track redemptions, availability, and user interaction
+
+### 4. Cross-Chain Ready
+
+* Rewards can be distributed across chains using:
+
+  * **LI.FI SDK** 
+  * **Circle CCTP v2** 
+* Ensures seamless user experience regardless of user chain preferences
+
+### 5. Insights & Loyalty Analytics
+
+* Access to the **Partner Dashboard** for ongoing intelligence:
+
+  * Engagement data by region, time, and tier
+  * Most redeemed rewards and user retention stats
+  * Redemption conversion funnel
+* Future loyalty extensions:
+
+  * Trigger additional perks for Gold-tier streaks
+  * Airdrop collectibles for highly engaged users
+  * Enable DAO governance access based on spend-tier NFTs
+
+---
+
 
 
