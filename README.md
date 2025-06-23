@@ -20,9 +20,7 @@ Built for MetaMask Card users, MetaMiles enables:
 All rewards are claimable via a smooth, gas-efficient onchain flow — and optional **zero-knowledge proofs** ensure users can prove eligibility (e.g., "I spent \$500 this month") **without revealing full payment data**, preserving flexibility and privacy where needed.
 
 ---
-Here’s the polished **“Meet James – Just Another Crypto User... Until MetaMiles”** story section you can copy-paste directly into your doc or presentation:
 
----
 
 ##  Meet James – Just Another Crypto User... Until MetaMiles
 
