@@ -73,3 +73,62 @@ Now James tells every crypto friend:
 > **“If you’re using MetaMask, and not using the card with MetaMiles…
 > you’re literally leaving rewards on the table.”**
 
+
+---
+
+## **User Flow – MetaMiles Spend-to-Reward Journey**
+
+### 1. Onboarding
+
+* User visits the MetaMiles dApp
+* Connects MetaMask Wallet via MetaMask SDK
+* Verifies MetaMask Card ownership using a signed message
+* Optionally enrolls in Circle Wallet for reward custody or delivery
+
+### 2. Spending & Tracking
+
+* User makes purchases using the MetaMask Card
+* Spend data is securely retrieved via Chainlink Functions
+* An on-chain SpendTracker Contract is updated with the total spend amount
+* No transaction-level data is stored on-chain, preserving privacy
+
+### 3. Proof Generation (Zero-Knowledge)
+
+* User opens the MetaMiles dApp to claim eligible rewards
+* A zero-knowledge circuit runs locally in the browser
+
+  * Example: “Prove I’ve spent more than \$X this month”
+* A ZK-SNARK proof is generated using the user’s pseudonymous identity
+* The proof is submitted on-chain to the ZKVerifier Contract
+
+### 4. Reward Unlock
+
+* The ZKVerifier smart contract confirms the proof is valid
+* A Soulbound NFT is minted to represent the user’s current tier (Bronze, Silver, Gold)
+* Based on the tier, users gain access to:
+
+  * Token-gated event ticketing
+  * Real-world discounts (via QR/NFC or digital pass)
+  * Exclusive merch, airdrops, or DAO perks
+
+### 5. Cross-Chain and Custody
+
+* If a reward exists on a different chain:
+
+  * The LI.FI SDK is used to bridge rewards cross-chain
+  * Circle’s CCTP V2 facilitates secure asset transfer
+* Reward is delivered to the user’s preferred destination chain or to their Circle Wallet
+
+### 6. Ongoing Use
+
+* Spend tracking resets monthly (or on a rolling basis)
+* Users repeat the cycle: spend → prove → unlock
+* The MetaMiles dashboard displays:
+
+  * Tier progress
+  * Claimable rewards
+  * Reward history and streaks
+
+---
+
+
