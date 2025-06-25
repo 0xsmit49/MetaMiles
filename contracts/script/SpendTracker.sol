@@ -4,6 +4,8 @@ pragma solidity ^0.8.20;
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@chainlink/contracts/src/v0.8/interfaces/FunctionsClientInterface.sol";
+import "@chainlink/contracts/src/v0.8/dev/functions/FunctionsClient.sol";
 
 /**
  * @title SpendTracker - Tracks user spending via Chainlink Functions
