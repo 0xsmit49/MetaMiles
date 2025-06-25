@@ -127,9 +127,3 @@ contract MetaMilesCore is Ownable, ReentrancyGuard {
 
 
 
-
-// Required interface for ERC20 tokens
-interface IERC20 {
-    function transfer(address to, uint256 amount) external returns (bool);
-    function balanceOf(address account) external view returns (uint256);
-}

@@ -1,4 +1,6 @@
-/**
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+ /**
  * @title SoulboundNFT - Non-transferable NFTs representing user tiers
  * @notice Soulbound tokens that represent user achievement tiers
  */

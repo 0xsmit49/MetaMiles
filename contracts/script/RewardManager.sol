@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
 /**
  * @title RewardManager - Manages reward distribution and cross-chain operations
  * @notice Handles reward unlocking, cross-chain bridging, and delivery

@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
 /**
  * @title SpendTracker - Tracks user spending via Chainlink Functions
  * @notice Securely retrieves and stores aggregated spend data
