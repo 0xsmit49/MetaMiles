@@ -1,5 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+
 /**
  * @title RewardManager - Manages reward distribution and cross-chain operations
  * @notice Handles reward unlocking, cross-chain bridging, and delivery

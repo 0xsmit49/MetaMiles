@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
+import "@openzeppelin/contracts/access/Ownable.sol";
+
 /**
  * @title ZKVerifier - Verifies zero-knowledge proofs for spending thresholds
  * @notice Validates ZK-SNARK proofs without revealing transaction details

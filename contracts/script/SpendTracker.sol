@@ -1,5 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
+
+import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+
+import "@openzeppelin/contracts/access/Ownable.sol";
+
 /**
  * @title SpendTracker - Tracks user spending via Chainlink Functions
  * @notice Securely retrieves and stores aggregated spend data
