@@ -9,9 +9,14 @@ Please do visit our [docs](https://smits-organization-1.gitbook.io/metamiles)
 
 ## Introduction
 
+
 As MetaMask Card brings crypto spending to the real world, users need more than just payments — they need a **smart, rewarding experience** built around how and where they spend.
 
 **MetaMiles** is a modular, onchain rewards engine designed to turn every MetaMask Card transaction into meaningful perks, insights, and status. Whether it’s unlocking event tickets, food discounts, or NFT-based merchandise, MetaMiles transforms proof of spend into real-world value.
+
+
+![Screenshot from 2025-07-03 21-59-58](https://github.com/user-attachments/assets/7ef7313c-585a-48d9-bf58-8258b82c027a)
+
 
 Built for MetaMask Card users, MetaMiles enables:
 
@@ -95,6 +100,10 @@ Now James tells every crypto friend:
 * An on-chain SpendTracker Contract is updated with the total spend amount
 * No transaction-level data is stored on-chain, preserving privacy
 
+
+![Screenshot from 2025-07-03 22-00-25](https://github.com/user-attachments/assets/ff231194-9edf-4bd3-a02e-00eced234243)
+
+
 ### 3. Proof Generation (Zero-Knowledge)
 
 * User opens the MetaMiles dApp to claim eligible rewards
@@ -120,7 +129,11 @@ Now James tells every crypto friend:
 
   * The LI.FI SDK is used to bridge rewards cross-chain
   * Circle’s CCTP V2 facilitates secure asset transfer
-* Reward is delivered to the user’s preferred destination chain 
+* Reward is delivered to the user’s preferred destination chain
+
+
+![Screenshot from 2025-07-03 22-04-48](https://github.com/user-attachments/assets/698afeb6-a9fe-4e80-883a-df49257b0cfd)
+
 
 ### 6. Ongoing Use
 
@@ -142,6 +155,9 @@ Now James tells every crypto friend:
 * Registers as a verified reward provider
 * Sets up organization profile, including region, category, and contact details
 
+![Screenshot from 2025-07-03 22-01-04](https://github.com/user-attachments/assets/531d0383-4d9d-4075-9c89-43bd852b59c8)
+
+
 ### 2. Perk Configuration
 
 * Partner defines region-specific and tier-based rewards
@@ -156,7 +172,7 @@ Now James tells every crypto friend:
 
 ### 3. Integration & Monitoring
 
-* Uses **MetaMiles SDK** or **Reward API** to:
+* Uses **MetaMiles SDK** to:
 
   * Validate wallet tier and region eligibility
   * Programmatically issue or mint rewards
@@ -177,6 +193,11 @@ Now James tells every crypto friend:
   * Engagement data by region, time, and tier
   * Most redeemed rewards and user retention stats
   * Redemption conversion funnel
+
+
+   ![Screenshot from 2025-07-03 22-07-42](https://github.com/user-attachments/assets/b2c689c3-6354-4c93-b5ef-55ab5156ae99)
+
+
 * Future loyalty extensions:
 
   * Trigger additional perks for Gold-tier streaks
@@ -258,6 +279,18 @@ Now James tells every crypto friend:
   * User verification & claiming
 
 ---
+
+## Contact Us
+
+Have questions, want to partner, or just curious about MetaMiles?
+We’d love to hear from you.
+
+* **Email:** [bafnasmit@gmail.com](mailto:bafnasmit@gmail.com)
+* **Twitter/X:** [@bafnasmit\_49](https://x.com/bafnasmit_49)
+* **LinkedIn:** [Smit Bafna](https://www.linkedin.com/in/smit-bafna-bb99372a3/)
+
+---
+
 
 
 
