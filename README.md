@@ -113,7 +113,7 @@ Now James tells every crypto friend:
 * A ZK-SNARK proof is generated using the user’s pseudonymous identity
 * The proof is submitted on-chain to the ZKVerifier Contract
 
-### 4. Reward Unlock
+### 4. Reward Unlock on Circle
 
 * The ZKVerifier smart contract confirms the proof is valid
 * A Soulbound NFT is minted to represent the user’s current tier (Bronze, Silver, Gold)
@@ -122,6 +122,10 @@ Now James tells every crypto friend:
   * Token-gated event ticketing
   * Real-world discounts (via QR/NFC or digital pass)
   * Exclusive merch, airdrops, or DAO perks
+
+![Screenshot from 2025-07-04 09-49-56](https://github.com/user-attachments/assets/99b233bc-3d7b-4147-ae9c-5e33d3cd784f)
+
+
 
 ### 5. Cross-Chain and Custody
 
